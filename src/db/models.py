@@ -55,6 +55,8 @@ class Channels(models.Model):
     chat_id = models.BigIntegerField(null=True)
     url = models.URLField(null=True)
 
+    is_active = models.BooleanField(default=True)
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
 

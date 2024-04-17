@@ -1,9 +1,28 @@
 from telegram import Update
 from telegram.ext import CallbackContext
 
+from db.models import User, Channels
+
 from states import States as st
 
 
 async def start(update: Update, context: CallbackContext):
-    await update.message.reply_text("Salom!")
-    return st.START
+    user, _ = User.objects.get_or_create(chat_id=update.effective_user.id,
+                                         defaults={'fullname': update.effective_user.full_name,
+                                                   'username': update.effective_user.username})
+    channels = Channels.objects.filter(is_active=True)
+    if channels.exists():
+        for channel in channels:
+            is_followers = await context.bot.get_chat_member(channel.chat_id, user.chat_id)
+            if is_followers.status in ['member', 'administrator']:
+                await update.message.reply_text(f"Salom, {user.fullname}!\n"
+                                                f"Quyidagi tugmalardan birini tanlang:")
+                return st.MAIN_MENU
+            else:
+                await update.message.reply_text(f"Salom, {user.fullname}!\n"
+                                                f"Kanalimizga obuna bo'ling va qayta /start ni bosing!")
+                return st.START
+    else:
+        await update.message.reply_text(f"Salom, {user.fullname}!\n"
+                                        f"Quyidagi tugmalardan birini tanlang:")
+        return st.MAIN_MENU
