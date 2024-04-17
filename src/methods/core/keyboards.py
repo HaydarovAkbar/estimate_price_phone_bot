@@ -1,5 +1,5 @@
 from .texts import KeyboardsTexts as msg_txt
-from telegram import KeyboardButton, WebAppInfo, ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram import KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardMarkup, InlineKeyboardButton
 
 
 class KeyboardBase:
@@ -22,13 +22,20 @@ class KeyboardBase:
     def __repr__(self):
         return str(self._keyboard)
 
+    def channels(self, channels):
+        keyboard = []
+        for channel in channels:
+            keyboard.append(
+                [InlineKeyboardButton(channel.title, url=channel.url)]
+            )
+        return InlineKeyboardMarkup(keyboard)
+
     @staticmethod
     def get_main_menu(lang='uz'):
         txt = msg_txt.main.get(lang)
         kb = ReplyKeyboardMarkup(
             [
                 [KeyboardButton(txt[0]), KeyboardButton(txt[1])],
-                [KeyboardButton(txt[2]), KeyboardButton(txt[3])],
             ],
             resize_keyboard=True
         )
