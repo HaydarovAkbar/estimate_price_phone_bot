@@ -21,18 +21,19 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 from telegram import Update
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, ConversationHandler
+from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, ConversationHandler, MessageHandler, filters
 
-
-async def hello(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.message.reply_text(f'Hello {update.effective_user.first_name}')
-
+from methods.core.views import start
+from states import States as st
 
 app = ApplicationBuilder().token(TOKEN).build()
 
 all_handlers = ConversationHandler(
-    entry_points=[CommandHandler('start', hello)],
-    states={},
+    entry_points=[CommandHandler('start', start)],
+    states={
+        st.START: [CommandHandler('start', start),
+                   MessageHandler(filters.TEXT, start)],
+    },
     fallbacks=[]
 )
 
