@@ -70,14 +70,11 @@ class Channels(models.Model):
         super(Channels, self).save(*args, **kwargs)
         return self
 
-    class Meta:
-        db_table = 'channels'
+    abstract = True
 
 
-class Product(models.Model):
+class Categories(models.Model):
     title = models.CharField(max_length=255, verbose_name=_("Nomi"))
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Narxi"))
-    description = models.TextField(verbose_name=_("Tavsif"))
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
@@ -89,8 +86,144 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         self.updated_at = now()
-        super(Product, self).save(*args, **kwargs)
+        super(Categories, self).save(*args, **kwargs)
         return self
 
-    class Meta:
-        db_table = 'product'
+    abstract = True
+
+
+# class Products(models.Model):
+#     title = models.CharField(max_length=255, verbose_name=_("Nomi"))
+#     category = models.ForeignKey(Categories, on_delete=models.CASCADE, related_name='products',
+#                                  verbose_name=_("Kategoriya"))
+#
+#     created_at = models.DateTimeField(auto_now_add=True)
+#     updated_at = models.DateTimeField(auto_now=True, null=True)
+#
+#     objects = models.Manager()
+#
+#     def __str__(self):
+#         return self.title
+#
+#     def save(self, *args, **kwargs):
+#         self.updated_at = now()
+#         super(Products, self).save(*args, **kwargs)
+#         return self
+#
+#     abstract = True
+
+
+class Capacities(models.Model):  # Емкости
+    title = models.CharField(max_length=100)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
+    objects = models.Manager()
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        self.updated_at = now()
+        super(Capacities, self).save(*args, **kwargs)
+        return self
+
+    abstract = True
+
+
+class Colors(models.Model):
+    title = models.CharField(max_length=100)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
+    objects = models.Manager()
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        self.updated_at = now()
+        super(Colors, self).save(*args, **kwargs)
+        return self
+
+    abstract = True
+
+
+class Memories(models.Model):
+    title = models.CharField(max_length=100)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
+    objects = models.Manager()
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        self.updated_at = now()
+        super(Memories, self).save(*args, **kwargs)
+        return self
+
+    abstract = True
+
+
+class Documents(models.Model):
+    title = models.CharField(max_length=100)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
+    objects = models.Manager()
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        self.updated_at = now()
+        super(Documents, self).save(*args, **kwargs)
+        return self
+
+    abstract = True
+
+
+class Countries(models.Model):
+    title = models.CharField(max_length=100)
+    icon = models.CharField(max_length=25, null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
+    objects = models.Manager()
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        self.updated_at = now()
+        super(Countries, self).save(*args, **kwargs)
+        return self
+
+    abstract = True
+
+
+class Statuses(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField(null=True, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
+    objects = models.Manager()
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        self.updated_at = now()
+        super(Statuses, self).save(*args, **kwargs)
+        return self
+
+    abstract = True

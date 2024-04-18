@@ -22,7 +22,8 @@ class KeyboardBase:
     def __repr__(self):
         return str(self._keyboard)
 
-    def channels(self, channels):
+    @staticmethod
+    def channels(channels):
         keyboard = []
         for channel in channels:
             keyboard.append(
