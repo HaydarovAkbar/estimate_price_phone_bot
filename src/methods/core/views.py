@@ -9,30 +9,56 @@ from db.models import User, Channels
 from states import States as st
 
 
-async def start(update: Update, context: CallbackContext):
-    user, _ = User.objects.get_or_create(chat_id=update.effective_user.id,
-                                         defaults={'fullname': update.effective_user.full_name,
-                                                   'username': update.effective_user.username,
-                                                   'language': 'uz', })
+def start(update: Update, context: CallbackContext):
+    user = User.objects.get(chat_id=update.effective_user.id)
     channels = Channels.objects.filter(is_active=True)
     if channels.exists():
         i = int()
         locout_ch = list()
         for channel in channels:
-            is_followers = await context.bot.get_chat_member(channel.chat_id, user.chat_id)
+            is_followers = context.bot.get_chat_member(channel.chat_id, user.chat_id)
             if is_followers.status in ['member', 'administrator']:
                 i += 1
             else:
                 locout_ch.append(channel)
         if i == channels.count():
-            await update.message.reply_text(msg_txt.main.get(user.language),
-                                            reply_markup=kb.get_main_menu(user.language))
+            update.message.reply_text(msg_txt.main.get(user.language),
+                                      reply_markup=kb.get_main_menu(user.language))
             return st.MAIN_MENU
         else:
-            await update.message.reply_text(msg_txt.forced_labor.get(user.language),
-                                            reply_markup=kb.channels(locout_ch))
+            update.message.reply_text(msg_txt.forced_labor.get(user.language),
+                                      reply_markup=kb.channels(locout_ch))
             return st.FOLLOWERS
     else:
-        await update.message.reply_text(msg_txt.main.get(user.language),
-                                        reply_markup=kb.get_main_menu(user.language))
+        update.message.reply_text(msg_txt.main.get(user.language),
+                                  reply_markup=kb.get_main_menu(user.language))
+        return st.MAIN_MENU
+
+
+
+def followers(update: Update, context: CallbackContext):
+    query = update.callback_query
+    user = User.objects.get(chat_id=query.from_user.id)
+    if query.data == 'confirm':
+        query.delete_message()
+        channels = Channels.objects.filter(is_active=True)
+        i, locout_ch = int(), list()
+        for channel in channels:
+            is_followers = context.bot.get_chat_member(channel.chat_id, user.chat_id)
+            if is_followers.status in ['member', 'administrator']:
+                i += 1
+            else:
+                locout_ch.append(channel)
+        if i == channels.count():
+            context.bot.send_message(chat_id=user.chat_id, text=msg_txt.main.get(user.language),
+                                     reply_markup=kb.get_main_menu(user.language))
+            return st.MAIN_MENU
+        else:
+            context.bot.send_message(chat_id=user.chat_id, text=msg_txt.forced_labor.get(user.language),
+                                     reply_markup=kb.channels(locout_ch))
+            return st.FOLLOWERS
+    else:
+        query.delete_message()
+        context.bot.send_message(chat_id=user.chat_id, text=msg_txt.main.get(user.language),
+                                 reply_markup=kb.get_main_menu(user.language))
         return st.MAIN_MENU

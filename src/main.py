@@ -20,24 +20,25 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
-from telegram import Update
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, ConversationHandler, MessageHandler, filters
-
-from methods.core.views import start
+from methods.core.views import start, followers
 from states import States as st
+from telegram.ext import CallbackContext, CommandHandler, ConversationHandler, MessageHandler, Filters, \
+    CallbackQueryHandler, Updater
 
-app = ApplicationBuilder().token(TOKEN).build()
+updater = Updater(token=TOKEN, use_context=True)
+dispatcher = updater.dispatcher
 
 all_handlers = ConversationHandler(
     entry_points=[CommandHandler('start', start)],
     states={
-        st.START: [CommandHandler('start', start),
-                   MessageHandler(filters.TEXT, start)],
+        st.START: [CommandHandler('start', start)],
+        st.FOLLOWERS: [CommandHandler('start', start),
+                       CallbackQueryHandler(followers)],
     },
     fallbacks=[]
 )
 
-app.add_handler(all_handlers)
-
-app.run_polling()
-print("run polling")
+dispatcher.add_handler(all_handlers)
+updater.start_polling()
+updater.idle()
+print('Bot is running...')
