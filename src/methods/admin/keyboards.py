@@ -40,6 +40,6 @@ class AdminKeyboards:
         keyboard = []
         for user in users:
             keyboard.append(
-                [InlineKeyboardButton(user.fullname, callback_data=f'{user.chat_id}')]
+                [InlineKeyboardButton(user.get_fullname(), callback_data=f'{user.chat_id}')]
             )
         return InlineKeyboardMarkup(keyboard)

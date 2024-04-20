@@ -17,7 +17,7 @@ class MessageText:
         'en': "Enter the CHAT ID number",
     }
     success = {
-        'uz': "Muvaffaqiyatli admin qo'shildi ✅",
+        'uz': "Muvaffaqiyatli bajarildi ✅",
         'ru': "успешно добавлен в админы ✅",
         'en': "successfully added to admins ✅",
     }
@@ -36,6 +36,11 @@ class MessageText:
         'uz': "Hozircha adminlar yo'q",
         'ru': "Пока нет админов",
         'en': "No admins yet",
+    }
+    delete_admin = {
+        'uz': "\n\nO'chirish uchun tanlang",
+        'ru': "\n\nВыберите для удаления",
+        'en': "\n\nSelect to delete",
     }
 
 

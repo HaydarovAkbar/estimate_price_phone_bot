@@ -35,7 +35,10 @@ class User(models.Model):
         return self.username
 
     def get_fullname(self):
-        return self.fullname + ' - ' + str(self.chat_id)
+        try:
+            return self.fullname + ' - ' + str(self.chat_id)
+        except Exception:
+            return str(self.id) + ' - ' + str(self.chat_id)
 
     def save(self, *args, **kwargs):
         self.updated_at = now()
