@@ -21,7 +21,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 from methods.core.views import start, followers
-from methods.admin.views import admin, add_admin, get_admin_id, get_admins, delete_admin, get_users
+from methods.admin.views import admin, add_admin, get_admin_id, get_admins, delete_admin, get_users, add_data, get_data
 
 from methods.admin.message import KeyboardsAdmin as bt
 
@@ -46,17 +46,17 @@ all_handlers = ConversationHandler(
                    MessageHandler(Filters.regex('^(' + bt.base['uz'][0] + ')$'), add_admin),
                    MessageHandler(Filters.regex('^(' + bt.base['uz'][1] + ')$'), get_admins),
                    MessageHandler(Filters.regex('^(' + bt.base['uz'][2] + ')$'), get_users),
-                   MessageHandler(Filters.regex('^(' + bt.base['uz'][3] + ')$'), admin),
+                   MessageHandler(Filters.regex('^(' + bt.base['uz'][3] + ')$'), add_data),
 
                    MessageHandler(Filters.regex('^(' + bt.base['ru'][0] + ')$'), add_admin),
                    MessageHandler(Filters.regex('^(' + bt.base['ru'][1] + ')$'), get_admins),
                    MessageHandler(Filters.regex('^(' + bt.base['ru'][2] + ')$'), get_users),
-                   MessageHandler(Filters.regex('^(' + bt.base['ru'][3] + ')$'), admin),
+                   MessageHandler(Filters.regex('^(' + bt.base['ru'][3] + ')$'), add_data),
 
                    MessageHandler(Filters.regex('^(' + bt.base['en'][0] + ')$'), add_admin),
                    MessageHandler(Filters.regex('^(' + bt.base['en'][1] + ')$'), get_admins),
                    MessageHandler(Filters.regex('^(' + bt.base['en'][2] + ')$'), get_users),
-                   MessageHandler(Filters.regex('^(' + bt.base['en'][3] + ')$'), admin),
+                   MessageHandler(Filters.regex('^(' + bt.base['en'][3] + ')$'), add_data),
                    ],
         st.ADD_ADMIN: [CommandHandler('start', start),
                        CommandHandler('admin', admin),
@@ -69,6 +69,13 @@ all_handlers = ConversationHandler(
                     CommandHandler('admin', admin),
                     CallbackQueryHandler(delete_admin),
                     ],
+        st.ADD_DATA: [CommandHandler('start', start),
+                      CommandHandler('admin', admin),
+                      MessageHandler(Filters.regex('^(' + bt.back['uz'] + ')$'), admin),
+                      MessageHandler(Filters.regex('^(' + bt.back['ru'] + ')$'), admin),
+                      MessageHandler(Filters.regex('^(' + bt.back['en'] + ')$'), admin),
+                      MessageHandler(Filters.document, get_data),
+                      ],
     },
     fallbacks=[]
 )

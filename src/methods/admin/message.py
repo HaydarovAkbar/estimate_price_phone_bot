@@ -43,6 +43,12 @@ class MessageText:
         'en': "\n\nSelect to delete",
     }
 
+    add_data = {
+        'uz': "Berilgan shabllonni to'ldirib yuboring!",
+        'ru': "Заполните предоставленный шаблон!",
+        'en': "Fill in the provided template!",
+    }
+
 
 class KeyboardsAdmin:
     base = {

@@ -229,7 +229,7 @@ class Products(models.Model):
     status = models.ForeignKey(Statuses, on_delete=models.CASCADE, related_name='products',
                                verbose_name=_("Holati"))
 
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Narxi"))
+    price = models.CharField(max_length=255, verbose_name=_("Narxi"), null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     image = models.CharField(max_length=255, null=True, blank=True)
 

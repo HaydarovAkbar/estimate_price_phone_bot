@@ -1,9 +1,12 @@
 from telegram import Update, ReplyKeyboardRemove
 from telegram.ext import CallbackContext
-from states import States as S
-from db.models import User, Channels, Categories, Capacities, Products, Documents, Countries, Statuses, Memories, Colors
+import openpyxl
+
 from .keyboards import AdminKeyboards as K
 from .message import MessageText as T
+
+from states import States as S
+from db.models import User, Channels, Categories, Capacities, Products, Documents, Countries, Statuses, Memories, Colors
 
 
 def admin(update: Update, context: CallbackContext):
@@ -109,4 +112,50 @@ def get_users(update: Update, context: CallbackContext):
                                                       user.created_at.strftime('%Y-%m-%d %H:%M'))
         i += 1
     update.message.reply_text(all_text, reply_markup=K().base(user_lang))
+    return S.ADMIN
+
+
+def add_data(update: Update, context: CallbackContext):
+    tg_user = update.message.from_user
+    user = User.objects.filter(chat_id=tg_user.id, is_active=True, is_admin=True)
+    if not user.exists():
+        return S.START
+    user = user.first()
+    user_lang = user.language if user.language else 'uz'
+    update.message.reply_text(T().add_data[user_lang],
+                              reply_markup=K().back(user_lang))
+    update.message.reply_document(document=open('static/data.xlsx', 'rb'))
+    return S.ADD_DATA
+
+
+def change_data(path='static/data.xlsx'):
+    wb = openpyxl.load_workbook(path)
+    ws = wb.active
+    for row in ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=1, max_col=ws.max_column):
+        category, _ = Categories.objects.get_or_create(title=row[0].value)
+        capacity, _ = Capacities.objects.get_or_create(title=row[1].value)
+        document, _ = Documents.objects.get_or_create(title=row[3].value)
+        country, _ = Countries.objects.get_or_create(title=row[4].value)
+        status, _ = Statuses.objects.get_or_create(title=row[5].value)
+        memory, _ = Memories.objects.get_or_create(title=row[6].value)
+        color, _ = Colors.objects.get_or_create(title=row[7].value)
+        Products.objects.get_or_create(title=row[2].value, category=category, capacity=capacity, document=document,
+                                                  country=country, status=status, memory=memory, color=color, price=row[8].value)
+    wb.save(path)
+
+
+
+def get_data(update: Update, context: CallbackContext):
+    tg_user = update.message.from_user
+    user = User.objects.filter(chat_id=tg_user.id, is_active=True, is_admin=True)
+    if not user.exists():
+        return S.START
+    user = user.first()
+    user_lang = user.language if user.language else 'uz'
+    file_id = update.message.document.file_id
+    file_name = update.message.document.file_name
+    file = context.bot.get_file(file_id)
+    file.download('static/' + file_name)
+    change_data('static/' + file_name)
+    update.message.reply_text(T().success[user_lang], reply_markup=K().base(user_lang))
     return S.ADMIN

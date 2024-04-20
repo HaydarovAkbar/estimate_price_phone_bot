@@ -9,3 +9,4 @@ class States(Enum):
     ADMIN = auto()
     ADD_ADMIN = auto()
     ADMINS = auto()
+    ADD_DATA = auto()
