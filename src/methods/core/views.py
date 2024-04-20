@@ -35,7 +35,6 @@ def start(update: Update, context: CallbackContext):
         return st.MAIN_MENU
 
 
-
 def followers(update: Update, context: CallbackContext):
     query = update.callback_query
     user = User.objects.get(chat_id=query.from_user.id)
