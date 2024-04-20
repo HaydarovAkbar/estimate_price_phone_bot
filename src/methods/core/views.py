@@ -22,7 +22,7 @@ def start(update: Update, context: CallbackContext):
             else:
                 locout_ch.append(channel)
         if i == channels.count():
-            update.message.reply_text(msg_txt.main.get(user.language),
+            update.message.reply_text(msg_txt.main.get(user.language).format(user.fullname),
                                       reply_markup=kb.get_main_menu(user.language))
             return st.MAIN_MENU
         else:
@@ -30,7 +30,7 @@ def start(update: Update, context: CallbackContext):
                                       reply_markup=kb.channels(locout_ch))
             return st.FOLLOWERS
     else:
-        update.message.reply_text(msg_txt.main.get(user.language),
+        update.message.reply_text(msg_txt.main.get(user.language).format(user.fullname),
                                   reply_markup=kb.get_main_menu(user.language))
         return st.MAIN_MENU
 
@@ -49,7 +49,7 @@ def followers(update: Update, context: CallbackContext):
             else:
                 locout_ch.append(channel)
         if i == channels.count():
-            context.bot.send_message(chat_id=user.chat_id, text=msg_txt.main.get(user.language),
+            context.bot.send_message(chat_id=user.chat_id, text=msg_txt.main.get(user.language).format(user.fullname),
                                      reply_markup=kb.get_main_menu(user.language))
             return st.MAIN_MENU
         else:
@@ -58,6 +58,6 @@ def followers(update: Update, context: CallbackContext):
             return st.FOLLOWERS
     else:
         query.delete_message()
-        context.bot.send_message(chat_id=user.chat_id, text=msg_txt.main.get(user.language),
+        context.bot.send_message(chat_id=user.chat_id, text=msg_txt.main.get(user.language).format(user.fullname),
                                  reply_markup=kb.get_main_menu(user.language))
         return st.MAIN_MENU
