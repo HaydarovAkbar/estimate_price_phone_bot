@@ -11,6 +11,33 @@ class MessageText:
         'en': "Enter the CHAT ID of the user to add a new admin",
     }
 
+    error_id = {
+        'uz': "CHAT ID raqamini kiriting",
+        'ru': "Введите номер CHAT ID",
+        'en': "Enter the CHAT ID number",
+    }
+    success = {
+        'uz': "Muvaffaqiyatli admin qo'shildi ✅",
+        'ru': "успешно добавлен в админы ✅",
+        'en': "successfully added to admins ✅",
+    }
+    already_admin = {
+        'uz': "Bu foydalanuvchi allaqachon admin",
+        'ru': "Этот пользователь уже админ",
+        'en': "This user is already an admin",
+    }
+
+    admins = {
+        'uz': "Adminlar ro'yxati \n\n",
+        'ru': "Список админов \n\n",
+        'en': "List of admins \n\n",
+    }
+    no_admins = {
+        'uz': "Hozircha adminlar yo'q",
+        'ru': "Пока нет админов",
+        'en': "No admins yet",
+    }
+
 
 class KeyboardsAdmin:
     base = {

@@ -20,8 +20,26 @@ class AdminKeyboards:
         msg = bt.back.get(user_lang)
         keyboard = ReplyKeyboardMarkup(
             keyboard=[
-                [msg[0]],
+                [msg],
             ],
             resize_keyboard=True
         )
         return keyboard
+
+    @staticmethod
+    def channels(channels):
+        keyboard = []
+        for channel in channels:
+            keyboard.append(
+                [InlineKeyboardButton(channel.title, url=channel.url)]
+            )
+        return InlineKeyboardMarkup(keyboard)
+
+    @staticmethod
+    def users(users):
+        keyboard = []
+        for user in users:
+            keyboard.append(
+                [InlineKeyboardButton(user.fullname, callback_data=f'{user.chat_id}')]
+            )
+        return InlineKeyboardMarkup(keyboard)
