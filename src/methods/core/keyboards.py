@@ -73,3 +73,12 @@ class KeyboardBase:
                 [InlineKeyboardButton(fuel_type.fuel_type.title, callback_data=f'{fuel_type.fuel_type.id}')])
         keyboard.append([InlineKeyboardButton(msg_txt.back.get('uz'), callback_data='back')])
         return InlineKeyboardMarkup(keyboard)
+
+    @staticmethod
+    def reply_buttons(buttons):
+        keyboard = []
+        for button in buttons:
+            keyboard.append(
+                [InlineKeyboardButton(button.title, callback_data=button.id)]
+            )
+        return InlineKeyboardMarkup(keyboard)

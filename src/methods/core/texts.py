@@ -34,3 +34,9 @@ class Message:
         'ru': "Подпишитесь на наш канал, чтобы использовать бот!",
         'en': "Subscribe to our channel to use the bot!",
     }
+
+    sale_product = {
+        'uz': "📲 Telefonigizni bozordagi narxini bilib olish uchun uning xolatini belgilab chiqing👇🏻",
+        'ru': "📲 Узнайте цену своего телефона, указав его состояние👇🏻",
+        'en': "📲 Find out the price of your phone by indicating its condition👇🏻",
+    }

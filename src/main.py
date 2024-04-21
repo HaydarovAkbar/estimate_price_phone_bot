@@ -38,6 +38,7 @@ all_handlers = ConversationHandler(
     entry_points=[CommandHandler('start', start), CommandHandler('admin', admin)],
     states={
         st.START: [CommandHandler('start', start), CommandHandler('admin', admin)],
+
         st.FOLLOWERS: [CommandHandler('start', start), CommandHandler('admin', admin),
                        CallbackQueryHandler(followers)],
 

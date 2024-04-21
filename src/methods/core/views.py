@@ -4,7 +4,7 @@ from telegram.ext import CallbackContext
 from .texts import Message as msg_txt
 from .keyboards import KeyboardBase as kb
 
-from db.models import User, Channels
+from db.models import User, Channels, Categories, Capacities
 
 from states import States as st
 
@@ -61,3 +61,10 @@ def followers(update: Update, context: CallbackContext):
         context.bot.send_message(chat_id=user.chat_id, text=msg_txt.main.get(user.language).format(user.fullname),
                                  reply_markup=kb.get_main_menu(user.language))
         return st.MAIN_MENU
+
+
+def sale_product(update: Update, context: CallbackContext):
+    user = User.objects.get(chat_id=update.effective_user.id)
+    categories = Categories.objects.filter(is_active=True)
+    update.message.reply_text(msg_txt.sale_product[user.language], reply_markup=kb.reply_buttons(categories))
+    return st.SALE_PRODUCT
