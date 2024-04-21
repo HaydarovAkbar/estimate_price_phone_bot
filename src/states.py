@@ -10,3 +10,6 @@ class States(Enum):
     ADD_ADMIN = auto()
     ADMINS = auto()
     ADD_DATA = auto()
+    SALE_PRODUCT = auto()
+    GET_CAPACITY = auto()
+    GET_PRODUCT = auto()

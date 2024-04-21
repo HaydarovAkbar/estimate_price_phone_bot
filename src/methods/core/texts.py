@@ -23,6 +23,18 @@ class Message:
         'en': "Hello, {}!\n\nYou can use the bot",
     }
 
+    back = {
+        'uz': "🔙 Orqaga",
+        'ru': "🔙 Назад",
+        'en': "🔙 Back",
+    }
+
+    not_found = {
+        'uz': "Bunday brand topilmadi",
+        'ru': "Такой бренд не найден",
+        'en': "Brand not found",
+    }
+
     main_menu = {
         'uz': "Assalomu alaykum, {}!\n\nQuyidagi tillardan birini tanlang:",
         'ru': "Здравствуйте, {}!\n\nВыберите один из следующих языков:",
@@ -39,4 +51,15 @@ class Message:
         'uz': "📲 Telefonigizni bozordagi narxini bilib olish uchun uning xolatini belgilab chiqing👇🏻",
         'ru': "📲 Узнайте цену своего телефона, указав его состояние👇🏻",
         'en': "📲 Find out the price of your phone by indicating its condition👇🏻",
+    }
+
+    get_product = {
+        'uz': "{} brendi tanlandi. Ana endi model tanlang👇🏻",
+        'ru': "Выбран бренд {}. Теперь выберите модель👇🏻",
+        'en': "{} brand selected. Now select the model👇🏻",
+    }
+    get_capacity = {
+        'uz': "{} model tanlandi. Ana endi xotira tanlang👇🏻",
+        'ru': "Выбрана модель {}. Теперь выберите память👇🏻",
+        'en': "{} model selected. Now select the memory👇🏏",
     }

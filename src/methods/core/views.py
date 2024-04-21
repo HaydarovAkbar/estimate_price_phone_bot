@@ -4,7 +4,7 @@ from telegram.ext import CallbackContext
 from .texts import Message as msg_txt
 from .keyboards import KeyboardBase as kb
 
-from db.models import User, Channels, Categories, Capacities
+from db.models import User, Channels, Categories, Capacities, Products, Colors
 
 from states import States as st
 
@@ -65,6 +65,42 @@ def followers(update: Update, context: CallbackContext):
 
 def sale_product(update: Update, context: CallbackContext):
     user = User.objects.get(chat_id=update.effective_user.id)
-    categories = Categories.objects.filter(is_active=True)
+    categories = Categories.objects.all()
     update.message.reply_text(msg_txt.sale_product[user.language], reply_markup=kb.reply_buttons(categories))
     return st.SALE_PRODUCT
+
+
+def get_category(update: Update, context: CallbackContext):
+    user = User.objects.get(chat_id=update.effective_user.id)
+    if update.message.text == msg_txt.back.get(user.language):
+        update.message.reply_text(msg_txt.main.get(user.language).format(user.fullname),
+                                  reply_markup=kb.get_main_menu(user.language))
+        return st.MAIN_MENU
+    category = Categories.objects.filter(title=update.message.text)
+    if not category.exists():
+        update.message.reply_text(msg_txt.not_found[user.language],
+                                  reply_markup=kb.reply_buttons(Categories.objects.all()))
+        return st.SALE_PRODUCT
+    products = Products.objects.filter(category=category.first())
+    update.message.reply_text(msg_txt.get_product[user.language].format(update.message.text),
+                              reply_markup=kb.reply_buttons(products))
+    return st.GET_PRODUCT
+
+
+def get_capacity(update: Update, context: CallbackContext):
+    user = User.objects.get(chat_id=update.effective_user.id)
+    if update.message.text == msg_txt.back.get(user.language):
+        update.message.reply_text(msg_txt.sale_product[user.language],
+                                  reply_markup=kb.reply_buttons(Categories.objects.all()))
+        return st.SALE_PRODUCT
+    product = Products.objects.filter(title=update.message.text)
+    if not product.exists():
+        update.message.reply_text(msg_txt.not_found[user.language],
+                                  reply_markup=kb.reply_buttons(Products.objects.all()))
+        return st.GET_PRODUCT
+    print(product.first())
+    capacities = product.capacity
+    print(capacities)
+    update.message.reply_text(msg_txt.get_capacity[user.language].format(update.message.text),
+                              reply_markup=kb.reply_buttons(capacities))
+    return st.GET_CAPACITY

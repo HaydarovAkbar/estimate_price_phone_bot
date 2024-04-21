@@ -76,9 +76,13 @@ class KeyboardBase:
 
     @staticmethod
     def reply_buttons(buttons):
-        keyboard = []
+        keyboard, row = [], []
         for button in buttons:
-            keyboard.append(
-                [InlineKeyboardButton(button.title, callback_data=button.id)]
-            )
-        return InlineKeyboardMarkup(keyboard)
+            row.append(KeyboardButton(button.title))
+            if len(row) == 2:
+                keyboard.append(row)
+                row = []
+        if row:
+            keyboard.append(row)
+        keyboard.append([KeyboardButton(msg_txt.back.get('uz'))])
+        return ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
