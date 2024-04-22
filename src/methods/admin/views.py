@@ -134,13 +134,40 @@ def change_data(path='static/data.xlsx'):
     for row in ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=1, max_col=ws.max_column):
         category, _ = Categories.objects.get_or_create(title=row[0].value)
         capacity, _ = Capacities.objects.get_or_create(title=row[2].value)
-        document, _ = Documents.objects.get_or_create(title=row[3].value)
-        country, _ = Countries.objects.get_or_create(title=row[4].value)
-        status, _ = Statuses.objects.get_or_create(title=row[5].value)
-        memory, _ = Memories.objects.get_or_create(title=row[6].value)
-        color, _ = Colors.objects.get_or_create(title=row[7].value)
-        Products.objects.get_or_create(title=row[1].value, category=category, capacity=capacity, document=document,
-                                       country=country, status=status, memory=memory, color=color, price=row[8].value)
+        document, _ = Documents.objects.get_or_create(title=row[5].value)
+        country, _ = Countries.objects.get_or_create(title=row[6].value)
+        status, _ = Statuses.objects.get_or_create(title=row[7].value)
+        memory, _ = Memories.objects.get_or_create(title=row[4].value)
+        color, _ = Colors.objects.get_or_create(title=row[3].value)
+        producty, _ = Products.objects.get_or_create(title=row[1].value)
+        producty.category = category
+        if capacity.title != 'Y':
+            capacities = producty.capacity.all()
+            capacities.append(capacity)
+            producty.capacity.set(capacities)
+        if color.title != 'Y':
+            colors = producty.color.all()
+            colors.append(color)
+            producty.color.set(colors)
+        if memory.title != 'Y':
+            memories = producty.memory.all()
+            memories.append(memory)
+            producty.memory.set(memories)
+        if document.title != 'Y':
+            documents = producty.document.all()
+            documents.append(document)
+            producty.document.set(documents)
+        if country.title != 'Y':
+            countries = producty.country.all()
+            countries.append(country)
+            producty.country.set(countries)
+        if status.title != 'Y':
+            statuses = producty.status.all()
+            statuses.append(status)
+            producty.status.set(statuses)
+        producty.price = row[8].value
+        producty.save()
+
     wb.save(path)
 
 

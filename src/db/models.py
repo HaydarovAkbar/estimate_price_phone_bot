@@ -214,21 +214,19 @@ class Statuses(models.Model):
 
 class Products(models.Model):
     title = models.CharField(max_length=255, verbose_name=_("Nomi"))
-    category = models.ForeignKey(Categories, on_delete=models.CASCADE, related_name='products',
-                                 verbose_name=_("Kategoriya"))
-    capacity = models.ForeignKey(Capacities, on_delete=models.CASCADE, related_name='products',
-                                 verbose_name=_("Yomkosti"))
-    color = models.ForeignKey(Colors, on_delete=models.CASCADE, related_name='products',
-                              verbose_name=_("Rangi"))
-    memory = models.ForeignKey(Memories, on_delete=models.CASCADE, related_name='products',
-                               verbose_name=_("Xotira"))
-    document = models.ForeignKey(Documents, on_delete=models.CASCADE, related_name='products',
-                                 verbose_name=_("Hujjat"))
-    country = models.ForeignKey(Countries, on_delete=models.CASCADE, related_name='products',
-                                verbose_name=_("Mamlakat"))
-    status = models.ForeignKey(Statuses, on_delete=models.CASCADE, related_name='products',
-                               verbose_name=_("Holati"))
-
+    category = models.ForeignKey(Categories, on_delete=models.CASCADE, null=True, blank=True)
+    capacity = models.ManyToManyField(Capacities, related_name='products',
+                                      verbose_name=_("Yomkosti"))
+    color = models.ManyToManyField(Colors, related_name='products',
+                                   verbose_name=_("Rangi"))
+    memory = models.ManyToManyField(Memories, related_name='products',
+                                    verbose_name=_("Xotira"))
+    document = models.ManyToManyField(Documents, related_name='products',
+                                      verbose_name=_("Hujjat"))
+    country = models.ManyToManyField(Countries, related_name='products',
+                                     verbose_name=_("Mamlakat"))
+    status = models.ManyToManyField(Statuses, related_name='products',
+                                    verbose_name=_("Holati"))
     price = models.CharField(max_length=255, verbose_name=_("Narxi"), null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     image = models.CharField(max_length=255, null=True, blank=True)
