@@ -13,3 +13,6 @@ class States(Enum):
     SALE_PRODUCT = auto()
     GET_CAPACITY = auto()
     GET_PRODUCT = auto()
+    GET_COLOR = auto()
+    GET_MEMORY = auto()
+    GET_DOCUMENT = auto()

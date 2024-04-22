@@ -20,7 +20,8 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 
 logger = logging.getLogger(__name__)
 
-from methods.core.views import start, followers, sale_product, get_category, get_capacity
+from methods.core.views import start, followers, sale_product, get_category, get_capacity, get_capacity_product, \
+    get_color, get_memory, get_document
 from methods.admin.views import admin, add_admin, get_admin_id, get_admins, delete_admin, get_users, add_data, get_data
 
 from methods.admin.message import KeyboardsAdmin as bt
@@ -116,6 +117,42 @@ all_handlers = ConversationHandler(
             MessageHandler(Filters.regex('^(' + msg_txt.back['en'] + ')$'), sale_product),
 
             MessageHandler(Filters.text, get_capacity),
+        ],
+        st.GET_CAPACITY: [
+            CommandHandler('start', start),
+            CommandHandler('admin', admin),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['uz'] + ')$'), get_category),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['ru'] + ')$'), get_category),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['en'] + ')$'), get_category),
+
+            MessageHandler(Filters.text, get_capacity_product),
+        ],
+        st.GET_COLOR: [
+            CommandHandler('start', start),
+            CommandHandler('admin', admin),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['uz'] + ')$'), get_capacity),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['ru'] + ')$'), get_capacity),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['en'] + ')$'), get_capacity),
+
+            MessageHandler(Filters.text, get_color),
+        ],
+        st.GET_MEMORY: [
+            CommandHandler('start', start),
+            CommandHandler('admin', admin),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['uz'] + ')$'), get_capacity),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['ru'] + ')$'), get_capacity),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['en'] + ')$'), get_capacity),
+
+            MessageHandler(Filters.text, get_memory),
+        ],
+        st.GET_DOCUMENT: [
+            CommandHandler('start', start),
+            CommandHandler('admin', admin),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['uz'] + ')$'), get_memory),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['ru'] + ')$'), get_memory),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['en'] + ')$'), get_memory),
+
+            MessageHandler(Filters.document, get_document),
         ],
     },
     fallbacks=[]

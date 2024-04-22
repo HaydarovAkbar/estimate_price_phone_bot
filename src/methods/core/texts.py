@@ -63,3 +63,26 @@ class Message:
         'ru': "Выбрана модель {}. Теперь выберите память👇🏻",
         'en': "{} model selected. Now select the memory👇🏏",
     }
+
+    get_color = {
+        'uz': "🎨 Telfoningiz rangini tanlang 👇🏻",
+        'ru': "🎨 Выберите цвет вашего телефона 👇🏻",
+        'en': "🎨 Choose the color of your phone 👇🏻",
+    }
+
+    get_memory = {
+        'uz': "📦 Telefonning xotirasini tanlang 👇🏻",
+        'ru': "📦 Выберите память телефона 👇🏏",
+        'en': "📦 Choose the memory of the phone 👇🏻",
+    }
+
+    get_document = {
+        'uz': "?? Telefon Karobkasi bor yoki yo'qligini tanlang 👇🏻",
+        'ru': "�? Выберите наличие коробки у телефона 👇🏻",
+        'en': "�? Choose the presence of a box for the phone 👇🏻",
+    }
+    success = {
+        'uz': "Muvaffaqiyatli bajarildi ✅",
+        'ru': "успешно добавлен в админы ✅",
+        'en': "successfully added to admins ✅",
+    }

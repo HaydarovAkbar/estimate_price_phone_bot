@@ -49,7 +49,6 @@ class MessageText:
         'en': "Fill in the provided template!",
     }
 
-
 class KeyboardsAdmin:
     base = {
         'uz': ["Admin qo'shish", "Adminlar", "Foydalanuvchilar", "Ma'lumot qo'shish"],
