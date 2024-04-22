@@ -142,27 +142,27 @@ def change_data(path='static/data.xlsx'):
         producty, _ = Products.objects.get_or_create(title=row[1].value)
         producty.category = category
         if capacity.title != 'Y':
-            capacities = producty.capacity.all()
+            capacities = list(producty.capacity.all())
             capacities.append(capacity)
             producty.capacity.set(capacities)
         if color.title != 'Y':
-            colors = producty.color.all()
+            colors = list(producty.color.all())
             colors.append(color)
             producty.color.set(colors)
         if memory.title != 'Y':
-            memories = producty.memory.all()
+            memories = list(producty.memory.all())
             memories.append(memory)
             producty.memory.set(memories)
         if document.title != 'Y':
-            documents = producty.document.all()
+            documents = list(producty.document.all())
             documents.append(document)
             producty.document.set(documents)
         if country.title != 'Y':
-            countries = producty.country.all()
+            countries = list(producty.country.all())
             countries.append(country)
             producty.country.set(countries)
         if status.title != 'Y':
-            statuses = producty.status.all()
+            statuses = list(producty.status.all())
             statuses.append(status)
             producty.status.set(statuses)
         producty.price = row[8].value
