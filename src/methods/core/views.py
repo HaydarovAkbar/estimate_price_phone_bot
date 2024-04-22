@@ -1,11 +1,11 @@
 from telegram import Update
 from telegram.ext import CallbackContext
+from telegram import ParseMode
 
-from .texts import Message as msg_txt
 from .keyboards import KeyboardBase as kb
+from .texts import Message as msg_txt
 
 from db.models import User, Channels, Categories, Capacities, Products, Colors
-
 from states import States as st
 
 
@@ -99,7 +99,6 @@ def get_capacity(update: Update, context: CallbackContext):
                                   reply_markup=kb.reply_buttons(Products.objects.all()))
         return st.GET_PRODUCT
     context.user_data['product'] = product.first()
-    print(product.first().capacity.count())
     if product.first().capacity.count() > 0:
         capacities = product.first().capacity
         update.message.reply_text(msg_txt.get_capacity[user.language].format(update.message.text),
@@ -119,7 +118,6 @@ def get_capacity_product(update: Update, context: CallbackContext):
                                   reply_markup=kb.reply_buttons(Products.objects.all()))
         return st.GET_PRODUCT
     capacity = Capacities.objects.filter(title=update.message.text)
-    print(capacity.all())
     if not capacity.exists():
         update.message.reply_text(msg_txt.not_found[user.language],
                                   reply_markup=kb.reply_buttons(context.user_data['product'].capacity.all()))
@@ -129,7 +127,6 @@ def get_capacity_product(update: Update, context: CallbackContext):
     update.message.reply_text(msg_txt.get_color[user.language],
                               reply_markup=kb.reply_buttons(colors))
     return st.GET_COLOR
-
 
 
 def get_color(update: Update, context: CallbackContext):
@@ -179,5 +176,86 @@ def get_document(update: Update, context: CallbackContext):
         update.message.reply_text(msg_txt.not_found[user.language],
                                   reply_markup=kb.reply_buttons(context.user_data['product'].document.all()))
         return st.GET_DOCUMENT
-    update.message.reply_text(msg_txt.success[user.language])
-    return st.MAIN_MENU
+    context.user_data['document'] = document.first()
+    countries = context.user_data['product'].country.all()
+    update.message.reply_text(msg_txt.get_country[user.language],
+                              reply_markup=kb.reply_buttons(countries))
+    return st.GET_COUNTRY
+
+
+def get_country(update: Update, context: CallbackContext):
+    user = User.objects.get(chat_id=update.effective_user.id)
+    if update.message.text == msg_txt.back.get(user.language):
+        update.message.reply_text(msg_txt.get_document[user.language],
+                                  reply_markup=kb.reply_buttons(context.user_data['product'].document.all()))
+        return st.GET_DOCUMENT
+    country = context.user_data['product'].country.filter(title=update.message.text)
+    if not country.exists():
+        update.message.reply_text(msg_txt.not_found[user.language],
+                                  reply_markup=kb.reply_buttons(context.user_data['product'].country.all()))
+        return st.GET_COUNTRY
+    context.user_data['country'] = country.first()
+    statuses = context.user_data['product'].status.all()
+    update.message.reply_text(msg_txt.get_status[user.language],
+                              reply_markup=kb.reply_buttons(statuses))
+    return st.GET_STATUS
+
+
+def get_status(update: Update, context: CallbackContext):
+    user = User.objects.get(chat_id=update.effective_user.id)
+    status = context.user_data['product'].status.filter(title=update.message.text)
+    if not status.exists():
+        update.message.reply_text(msg_txt.not_found[user.language],
+                                  reply_markup=kb.reply_buttons(context.user_data['product'].status.all()))
+        return st.GET_STATUS
+
+    hashtags = context.user_data['product'].hashtags
+    fullname = user.fullname
+    name = context.user_data['product'].title
+    capacity = context.user_data.get('capacity', False)
+    color = context.user_data['color'].title
+    memory = context.user_data['memory'].title
+    document = context.user_data['document'].title
+    country = context.user_data['country'].title
+    price = context.user_data['product'].price
+    status = update.message.text
+    user_id = user.chat_id
+    if capacity:
+        msg = f"""
+{hashtags}
+        
+<a href="tg://user?id={user_id}">{fullname}</a> <b>sizning telefoningizni bozordagi o'rtacha narxi quyidagicha:</b>
+        
+|<b>📱 Modeli:</b> {name}
+|<b>🛠 Shikast: </b> {status}
+|<b>🔋 Yomkusti:</b>  {capacity.title}
+|<b>🎨 Rangi:</b> {color}
+|<b>📥 Xotirasi:</b>  {memory}
+|<b>📦 Hujjat:</b>  {document}
+|<b>🚩 Ishlab Chiqarilgan:</b>  {country}
+|<b>💸 Narx:</b> {price}
+
+<i>🛒 Biz bilan telefoningizni bozordagi narxdan qimmatroqqa soting!</i>
+
+<b><a href="https://t.me/teleshopuz">Telegram</a> | <a href="https://instagram.com/teleshopuzb">Instagram</a></b>
+"""
+    else:
+        msg = f"""
+{hashtags}
+
+<a href="tg://user?id={user_id}">{fullname}</a> <b>sizning telefoningizni bozordagi o'rtacha narxi quyidagicha:</b>
+
+|<b>📱 Modeli:</b> {name}
+|<b>🛠 Shikast: </b> {status}
+|<b>🎨 Rangi:</b> {color}
+|<b>📥 Xotirasi:</b>  {memory}
+|<b>📦 Hujjat:</b>  {document}
+|<b>🚩 Ishlab Chiqarilgan:</b>  {country}
+|<b>💸 Narx:</b> {price}
+
+<i>🛒 Biz bilan telefoningizni bozordagi narxdan qimmatroqqa soting!</i>
+
+<b><a href="https://t.me/teleshopuz">Telegram</a> | <a href="https://instagram.com/teleshopuzb">Instagram</a></b>
+"""
+    update.message.reply_text(msg, parse_mode=ParseMode.HTML)
+    return st.SEND_CHANNEL

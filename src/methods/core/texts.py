@@ -77,12 +77,22 @@ class Message:
     }
 
     get_document = {
-        'uz': "?? Telefon Karobkasi bor yoki yo'qligini tanlang 👇🏻",
-        'ru': "�? Выберите наличие коробки у телефона 👇🏻",
-        'en': "�? Choose the presence of a box for the phone 👇🏻",
+        'uz': "📦 Telefon Karobkasi bor yoki yo'qligini tanlang 👇🏻",
+        'ru': "📦 Выберите наличие коробки у телефона 👇🏻",
+        'en': "📦 Choose the presence of a box for the phone 👇🏻",
     }
     success = {
         'uz': "Muvaffaqiyatli bajarildi ✅",
         'ru': "успешно добавлен в админы ✅",
         'en': "successfully added to admins ✅",
+    }
+    get_country = {
+        'uz': "🚩 Telefon ishlab chiqarilgan davlatini tanlang 👇🏻",
+        'ru': "🚩 Выберите страну производства телефона 👇🏻",
+        'en': "🚩 Choose the country of manufacture of the phone 👇🏏",
+    }
+    get_status = {
+        'uz': "📦 Telefoningizga shikast yetgan yoki yetmaganligini tanlang 👇🏻",
+        'ru': "📦 Выберите, был ли ваш телефон разбит 👇🏏",
+        'en': "📦 Choose whether your phone was broken 👇🏻",
     }

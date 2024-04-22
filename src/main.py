@@ -21,7 +21,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 from methods.core.views import start, followers, sale_product, get_category, get_capacity, get_capacity_product, \
-    get_color, get_memory, get_document
+    get_color, get_memory, get_document, get_country, get_status
 from methods.admin.views import admin, add_admin, get_admin_id, get_admins, delete_admin, get_users, add_data, get_data
 
 from methods.admin.message import KeyboardsAdmin as bt
@@ -103,18 +103,18 @@ all_handlers = ConversationHandler(
         st.SALE_PRODUCT: [
             CommandHandler('start', start),
             CommandHandler('admin', admin),
-            MessageHandler(Filters.regex('^(' + msg_txt.back['uz'] + ')$'), get_category),
-            MessageHandler(Filters.regex('^(' + msg_txt.back['ru'] + ')$'), get_category),
-            MessageHandler(Filters.regex('^(' + msg_txt.back['en'] + ')$'), get_category),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['uz'] + ')$'), sale_product),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['ru'] + ')$'), sale_product),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['en'] + ')$'), sale_product),
 
             MessageHandler(Filters.text, get_category),
         ],
         st.GET_PRODUCT: [
             CommandHandler('start', start),
             CommandHandler('admin', admin),
-            MessageHandler(Filters.regex('^(' + msg_txt.back['uz'] + ')$'), sale_product),
-            MessageHandler(Filters.regex('^(' + msg_txt.back['ru'] + ')$'), sale_product),
-            MessageHandler(Filters.regex('^(' + msg_txt.back['en'] + ')$'), sale_product),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['uz'] + ')$'), get_category),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['ru'] + ')$'), get_category),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['en'] + ')$'), get_category),
 
             MessageHandler(Filters.text, get_capacity),
         ],
@@ -130,18 +130,18 @@ all_handlers = ConversationHandler(
         st.GET_COLOR: [
             CommandHandler('start', start),
             CommandHandler('admin', admin),
-            MessageHandler(Filters.regex('^(' + msg_txt.back['uz'] + ')$'), get_capacity),
-            MessageHandler(Filters.regex('^(' + msg_txt.back['ru'] + ')$'), get_capacity),
-            MessageHandler(Filters.regex('^(' + msg_txt.back['en'] + ')$'), get_capacity),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['uz'] + ')$'), get_category),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['ru'] + ')$'), get_category),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['en'] + ')$'), get_category),
 
             MessageHandler(Filters.text, get_color),
         ],
         st.GET_MEMORY: [
             CommandHandler('start', start),
             CommandHandler('admin', admin),
-            MessageHandler(Filters.regex('^(' + msg_txt.back['uz'] + ')$'), get_capacity),
-            MessageHandler(Filters.regex('^(' + msg_txt.back['ru'] + ')$'), get_capacity),
-            MessageHandler(Filters.regex('^(' + msg_txt.back['en'] + ')$'), get_capacity),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['uz'] + ')$'), get_color),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['ru'] + ')$'), get_color),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['en'] + ')$'), get_color),
 
             MessageHandler(Filters.text, get_memory),
         ],
@@ -152,7 +152,26 @@ all_handlers = ConversationHandler(
             MessageHandler(Filters.regex('^(' + msg_txt.back['ru'] + ')$'), get_memory),
             MessageHandler(Filters.regex('^(' + msg_txt.back['en'] + ')$'), get_memory),
 
-            MessageHandler(Filters.document, get_document),
+            MessageHandler(Filters.text, get_document),
+        ],
+        st.GET_COUNTRY: [
+            CommandHandler('start', start),
+            CommandHandler('admin', admin),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['uz'] + ')$'), get_document),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['ru'] + ')$'), get_document),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['en'] + ')$'), get_document),
+
+            MessageHandler(Filters.text, get_country),
+        ],
+
+        st.GET_STATUS: [
+            CommandHandler('start', start),
+            CommandHandler('admin', admin),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['uz'] + ')$'), get_country),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['ru'] + ')$'), get_country),
+            MessageHandler(Filters.regex('^(' + msg_txt.back['en'] + ')$'), get_country),
+
+            MessageHandler(Filters.text, get_status),
         ],
     },
     fallbacks=[]

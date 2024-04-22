@@ -16,3 +16,7 @@ class States(Enum):
     GET_COLOR = auto()
     GET_MEMORY = auto()
     GET_DOCUMENT = auto()
+    GET_COUNTRY = auto()
+    GET_STATUS = auto()
+
+    SEND_CHANNEL = auto()
