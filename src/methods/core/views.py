@@ -379,4 +379,3 @@ def get_report(update: Update, context: CallbackContext):
             update.message.forward(admin.chat_id)
     update.message.reply_text(msg_txt.success[user.language], reply_markup=kb.get_main_menu(user.language))
     return st.MAIN_MENU
- 
