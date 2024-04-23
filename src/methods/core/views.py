@@ -220,8 +220,8 @@ def get_status(update: Update, context: CallbackContext):
                                   reply_markup=kb.reply_buttons(context.user_data['product'].status.all(), main=True))
         return st.GET_STATUS
 
-    hashtags = context.user_data['product'].hashtags
-    fullname = user.fullname
+    # hashtags = context.user_data['product'].hashtags
+    # fullname = user.fullname
     name = context.user_data['product'].title
     capacity = context.user_data.get('capacity', False)
     color = context.user_data['color'].title
@@ -230,7 +230,7 @@ def get_status(update: Update, context: CallbackContext):
     country = context.user_data['country'].title
     price = context.user_data['product'].price
     status = update.message.text
-    user_id = user.chat_id
+    # user_id = user.chat_id
     if capacity:
         msg_uz = f"""
 <b>📲 Telefon:</b> {name}
@@ -246,7 +246,7 @@ def get_status(update: Update, context: CallbackContext):
 
 <i>Bizni rasmiy telegram kanalimiz 👇</i>
 
-<b><a href="https://t.me/PhoneSell_uz">TELEGRAM</a> | <a href="https://instagram.com/phonesell_admin">ADMIN</a></b>
+<b><a href="https://t.me/PhoneSell_uz">TELEGRAM</a> | <a href="https://t.me/phonesell_admin">ADMIN</a></b>
 """
         msg_ru = f"""
 <b>📲 Телефон:</b> {name}
@@ -262,14 +262,13 @@ def get_status(update: Update, context: CallbackContext):
 
 <i>Подпишитесь на наш официальный телеграм канал 👇</i>  
 
-<b><a href="https://t.me/PhoneSell_uz">TELEGRAM</a> | <a href="https://instagram.com/phonesell_admin">ADMIN</a></b>
+<b><a href="https://t.me/PhoneSell_uz">TELEGRAM</a> | <a href="https://t.me/phonesell_admin">ADMIN</a></b>
 """
     else:
         msg_uz = f"""
 <b>📲 Telefon:</b> {name}
 
 <b>🛠 Shikast yetganmi: </b> {status}
-<b>🔋 Batareyka:</b>  {capacity.title}
 <b>▪️ Rangi:</b> {color}
 <b>💾 Xotirasi:</b>  {memory}
 <b>📦 Karobka Dok:</b>  {document}
@@ -279,13 +278,12 @@ def get_status(update: Update, context: CallbackContext):
 
 <i>Bizni rasmiy telegram kanalimiz 👇</i>
 
-<b><a href="https://t.me/PhoneSell_uz">TELEGRAM</a> | <a href="https://instagram.com/phonesell_admin">ADMIN</a></b>
+<b><a href="https://t.me/PhoneSell_uz">TELEGRAM</a> | <a href="https://t.me/phonesell_admin">ADMIN</a></b>
         """
         msg_ru = f"""
 <b>📲 Телефон:</b> {name}
 
 <b>🛠 Сломан ли: </b> {status}
-<b>🔋 Батарея:</b>  {capacity.title}
 <b>▪️ Цвет:</b> {color}
 <b>💾 Память:</b>  {memory}
 <b>📦 Коробка Док:</b>  {document}
@@ -295,10 +293,11 @@ def get_status(update: Update, context: CallbackContext):
 
 <i>Подпишитесь на наш официальный телеграм канал 👇</i>
 
-<b><a href="https://t.me/PhoneSell_uz">TELEGRAM</a> | <a href="https://instagram.com/phonesell_admin">ADMIN</a></b>
+<b><a href="https://t.me/PhoneSell_uz">TELEGRAM</a> | <a href="https://t.me/phonesell_admin">ADMIN</a></b>
         """
     msg = msg_ru if user.language == 'ru' else msg_uz
     update.message.reply_text(msg, parse_mode=ParseMode.HTML)
+    update.message.reply_html(msg_txt.help_txt[user.language], reply_markup=kb.sell_product(user.language))
     return st.SEND_CHANNEL
 
 
@@ -308,11 +307,11 @@ def send_admin(update: Update, context: CallbackContext):
         update.message.reply_text(msg_txt.get_status[user.language],
                                   reply_markup=kb.reply_buttons(context.user_data['product'].status.all(), main=True))
         return st.GET_STATUS
-    admins = User.objects.filter(is_admin=True)
-    for admin in admins:
-        context.bot.send_message(chat_id=admin.chat_id, text=update.message.text)
-    update.message.reply_text(msg_txt.success[user.language])
-    return st.MAIN_MENU
+    # admins = User.objects.filter(is_admin=True)
+    # for admin in admins:
+    #     context.bot.send_message(chat_id=admin.chat_id, text=update.message.text)
+    update.message.reply_html(msg_txt.price_txt[user.language], reply_markup=kb.admin_inline('https://t.me/phonesell_admin'))
+    return st.SEND_CHANNEL
 
 
 def change_language(update: Update, context: CallbackContext):
@@ -351,8 +350,11 @@ def get_report(update: Update, context: CallbackContext):
         update.message.reply_text(msg_txt.report_admin[user.language],
                                   reply_markup=kb.get_report_menu(user.language))
         return st.REPORT_ADMIN
-    admins = User.objects.filter(is_admin=True)
-    for admin in admins:
-        update.message.forward(admin.chat_id)
+    try:
+        update.message.forward(5911729079)
+    except Exception:
+        admins = User.objects.filter(is_admin=True)
+        for admin in admins:
+            update.message.forward(admin.chat_id)
     update.message.reply_text(msg_txt.success[user.language], reply_markup=kb.get_main_menu(user.language))
     return st.MAIN_MENU

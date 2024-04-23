@@ -102,3 +102,17 @@ class KeyboardBase:
         if row:
             keyboard.append(row)
         return ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+
+    @staticmethod
+    def sell_product(lang='uz'):
+        msg = msg_txt.sale_product.get(lang)
+        keyboard = [
+            [KeyboardButton(msg[0]), KeyboardButton(msg[1])],
+        ]
+        return ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+
+    @staticmethod
+    def admin_inline(admin_url):
+        return InlineKeyboardMarkup([
+            [InlineKeyboardButton('📤 Chekni yuborish', url=admin_url)]
+        ])
