@@ -37,6 +37,7 @@ class KeyboardBase:
         kb = ReplyKeyboardMarkup(
             [
                 [KeyboardButton(txt[0]), KeyboardButton(txt[1])],
+                [KeyboardButton(txt[2])],
             ],
             resize_keyboard=True
         )
@@ -75,7 +76,7 @@ class KeyboardBase:
         return InlineKeyboardMarkup(keyboard)
 
     @staticmethod
-    def reply_buttons(buttons):
+    def reply_buttons(buttons, main=False):
         keyboard, row = [], []
         for button in buttons:
             row.append(KeyboardButton(button.title))
@@ -84,5 +85,20 @@ class KeyboardBase:
                 row = []
         if row:
             keyboard.append(row)
-        keyboard.append([KeyboardButton(msg_txt.back.get('uz'))])
+        if main:
+            keyboard.append([KeyboardButton(msg_txt.back.get('uz')), KeyboardButton(msg_txt.back_main.get('uz'))])
+        else:
+            keyboard.append([KeyboardButton(msg_txt.back.get('uz'))])
+        return ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
+
+    @staticmethod
+    def languages():
+        keyboard, row = [], []
+        for lang in msg_txt.languages:
+            row.append(KeyboardButton(lang))
+            if len(row) == 2:
+                keyboard.append(row)
+                row = []
+        if row:
+            keyboard.append(row)
         return ReplyKeyboardMarkup(keyboard, resize_keyboard=True)

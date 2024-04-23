@@ -10,6 +10,8 @@ class AdminKeyboards:
             keyboard=[
                 [msg[0], msg[1]],
                 [msg[2], msg[3]],
+                [msg[4], msg[5]],
+                [msg[6]],
             ],
             resize_keyboard=True
         )
@@ -41,5 +43,14 @@ class AdminKeyboards:
         for user in users:
             keyboard.append(
                 [InlineKeyboardButton(user.get_fullname(), callback_data=f'{user.chat_id}')]
+            )
+        return InlineKeyboardMarkup(keyboard)
+
+    @staticmethod
+    def all_channels(channels):
+        keyboard = []
+        for channel in channels:
+            keyboard.append(
+                [InlineKeyboardButton(channel.title, callback_data=f'{channel.chat_id}')]
             )
         return InlineKeyboardMarkup(keyboard)

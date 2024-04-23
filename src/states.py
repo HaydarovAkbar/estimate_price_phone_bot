@@ -9,6 +9,13 @@ class States(Enum):
     ADMIN = auto()
     ADD_ADMIN = auto()
     ADMINS = auto()
+    ADD_CHANNEL = auto()
+    ADD_CHANNEL_URL = auto()
+    ADD_CHANNEL_ID = auto()
+    DELETE_CHANNEL = auto()
+
+    REKLAMA = auto()
+
     ADD_DATA = auto()
     SALE_PRODUCT = auto()
     GET_CAPACITY = auto()
@@ -20,3 +27,5 @@ class States(Enum):
     GET_STATUS = auto()
 
     SEND_CHANNEL = auto()
+    CHOOSE_LANGUAGE = auto()
+    REPORT_ADMIN = auto()

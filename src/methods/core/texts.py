@@ -1,8 +1,8 @@
 class KeyboardsTexts:
     main = {
-        'uz': ["📲 Telefon narxlash 📲💰", '📋 Sozlamalar', ],
-        'ru': ["📲 Телефон цены 📲💰", '📋 Настройки', ],
-        'en': ["📲 Phone prices 📲💰", '📋 Settings', ],
+        'uz': ["📲 Telefon narxlash 📲💰", '📋 Sozlamalar', "Adminga murojaat"],
+        'ru': ["📲 Телефон цены 📲💰", '📋 Настройки', "Обращение к админу"],
+        'en': ["📲 Phone prices 📲💰", '📋 Settings', "Contact admin"],
     }
     back = {
         'uz': '🔙 Orqaga',
@@ -15,6 +15,14 @@ class KeyboardsTexts:
         'en': ['Weekly', 'Monthly', '🔙 Back'],
     }
 
+    back_main = {
+        'uz': '🏠 Bosh Sahifa',
+        'ru': '🏠 Главная',
+        'en': '🏠 Home',
+    }
+
+    languages = ['🇺🇿 O`zbekcha', '🇷🇺 Русский', ]
+
 
 class Message:
     main = {
@@ -23,6 +31,11 @@ class Message:
         'en': "Hello, {}!\n\nYou can use the bot",
     }
 
+    not_admin = {
+        'uz': "Adminlar!!\n{}- Bu kanalga botni admin qiling",
+        'ru': "Админы!!\n{}- Назначьте бота админом в этом канале",
+        'en': "Admins!!\n{}- Make the bot an admin in this channel",
+    }
     back = {
         'uz': "🔙 Orqaga",
         'ru': "🔙 Назад",
@@ -59,9 +72,9 @@ class Message:
         'en': "{} brand selected. Now select the model👇🏻",
     }
     get_capacity = {
-        'uz': "{} model tanlandi. Ana endi xotira tanlang👇🏻",
-        'ru': "Выбрана модель {}. Теперь выберите память👇🏻",
-        'en': "{} model selected. Now select the memory👇🏏",
+        'uz': "{} model tanlandi. Ana endi Capacity (Yomkust) tanlang👇🏻",
+        'ru': "Выбрана модель {}. Теперь выберите Capacity (Память)👇🏏",
+        'en': "{} model selected. Now select the Capacity👇🏻",
     }
 
     get_color = {
@@ -95,4 +108,22 @@ class Message:
         'uz': "📦 Telefoningizga shikast yetgan yoki yetmaganligini tanlang 👇🏻",
         'ru': "📦 Выберите, был ли ваш телефон разбит 👇🏏",
         'en': "📦 Choose whether your phone was broken 👇🏻",
+    }
+
+    choose_language = {
+        'uz': "Tilni tanlang",
+        'ru': "Выберите язык",
+        'en': "Choose the language",
+    }
+
+    success_lang_change = {
+        'uz': "<code>Til muvaffaqiyatli o'zgartirildi</code>",
+        'ru': "<code>Язык успешно изменен</code>",
+        'en': "<code>Language successfully changed</code>",
+    }
+
+    report_admin = {
+        'uz': "<b>Adminga murojaatingizni to'liqroq yozib qoldiring !!!\n\nBiz albatta ko'rib chiqamiz 👮‍♀️</b>",
+        'ru': "<b>Оставьте свое обращение админу !!!\n\nМы обязательно рассмотрим 👮‍♀️</b>",
+        'en': "<b>Leave your message to the admin !!!\n\nWe will definitely consider it 👮‍♀️</b>",
     }
