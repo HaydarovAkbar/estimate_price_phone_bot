@@ -1,8 +1,8 @@
 class KeyboardsTexts:
     main = {
-        'uz': ["📲 Telefon narxlash 📲💰", '📋 Sozlamalar', "Adminga murojaat"],
-        'ru': ["📲 Телефон цены 📲💰", '📋 Настройки', "Обращение к админу"],
-        'en': ["📲 Phone prices 📲💰", '📋 Settings', "Contact admin"],
+        'uz': ["📲 Telefon narxlash 📲💰", "♻️ Tilni o'zgartirish", "👮‍♀️ Adminga murojaat"],
+        'ru': ["📲 Оценка телефона 📲💰", "♻️ Изменить язык", "👮‍♀️ Обращение к админу"],
+        'en': ["📲 Phone evaluation 📲💰", "♻️ Change language", "👮‍♀️ Appeal to the admin"],
     }
     back = {
         'uz': '🔙 Orqaga',

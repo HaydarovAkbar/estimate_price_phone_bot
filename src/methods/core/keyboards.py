@@ -36,8 +36,8 @@ class KeyboardBase:
         txt = msg_txt.main.get(lang)
         kb = ReplyKeyboardMarkup(
             [
-                [KeyboardButton(txt[0]), KeyboardButton(txt[1])],
-                [KeyboardButton(txt[2])],
+                [KeyboardButton(txt[0])],
+                [KeyboardButton(txt[1]), KeyboardButton(txt[2])],
             ],
             resize_keyboard=True
         )
@@ -67,16 +67,7 @@ class KeyboardBase:
         return kb
 
     @staticmethod
-    def fuel_types(fuel_types):
-        keyboard = []
-        for fuel_type in fuel_types:
-            keyboard.append(
-                [InlineKeyboardButton(fuel_type.fuel_type.title, callback_data=f'{fuel_type.fuel_type.id}')])
-        keyboard.append([InlineKeyboardButton(msg_txt.back.get('uz'), callback_data='back')])
-        return InlineKeyboardMarkup(keyboard)
-
-    @staticmethod
-    def reply_buttons(buttons, main=False):
+    def reply_buttons(buttons, main=False, lang='uz'):
         keyboard, row = [], []
         for button in buttons:
             row.append(KeyboardButton(button.title))
@@ -86,9 +77,9 @@ class KeyboardBase:
         if row:
             keyboard.append(row)
         if main:
-            keyboard.append([KeyboardButton(msg_txt.back.get('uz')), KeyboardButton(msg_txt.back_main.get('uz'))])
+            keyboard.append([KeyboardButton(msg_txt.back.get(lang)), KeyboardButton(msg_txt.back_main.get(lang))])
         else:
-            keyboard.append([KeyboardButton(msg_txt.back.get('uz'))])
+            keyboard.append([KeyboardButton(msg_txt.back.get(lang))])
         return ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 
     @staticmethod
