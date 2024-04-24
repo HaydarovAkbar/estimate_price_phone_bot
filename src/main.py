@@ -279,7 +279,9 @@ all_handlers = ConversationHandler(
             MessageHandler(Filters.all, get_report),
         ],
     },
-    fallbacks=[]
+    fallbacks=[
+        MessageHandler(Filters.all, start),
+    ]
 )
 
 dispatcher.add_handler(all_handlers)
