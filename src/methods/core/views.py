@@ -85,28 +85,30 @@ def sale_product(update: Update, context: CallbackContext):
 
 def get_category(update: Update, context: CallbackContext):
     user = User.objects.get(chat_id=update.effective_user.id)
-    if update.message.text == msg_txt.back.get(user.language):
-        update.message.reply_text(msg_txt.main.get(user.language).format(user.fullname),
-                                  reply_markup=kb.get_main_menu(user.language))
-        return st.MAIN_MENU
+    user_lang = user.language
+    # if update.message.text == msg_txt.back.get(user.language):
+    #     update.message.reply_text(msg_txt.main.get(user.language).format(user.fullname),
+    #                               reply_markup=kb.get_main_menu(user.language))
+    #     return st.MAIN_MENU
+    print(update.message.text)
     category = Categories.objects.filter(title=update.message.text)
     if not category.exists():
         update.message.reply_text(msg_txt.not_found[user.language],
-                                  reply_markup=kb.reply_buttons(Categories.objects.all()))
+                                  reply_markup=kb.reply_buttons(Categories.objects.all(), lang=user_lang))
         return st.SALE_PRODUCT
     products = Products.objects.filter(category=category.first())
     update.message.reply_text(msg_txt.get_product[user.language].format(update.message.text),
-                              reply_markup=kb.reply_buttons(products))
+                              reply_markup=kb.reply_buttons(products, lang=user_lang))
     return st.GET_PRODUCT
 
 
 def get_capacity(update: Update, context: CallbackContext):
     user = User.objects.get(chat_id=update.effective_user.id)
     user_lang = user.language
-    if update.message.text == msg_txt.back.get(user.language):
-        update.message.reply_text(msg_txt.sale_product[user.language],
-                                  reply_markup=kb.reply_buttons(Categories.objects.all(), lang=user_lang))
-        return st.SALE_PRODUCT
+    # if update.message.text == msg_txt.back.get(user.language):
+    #     update.message.reply_text(msg_txt.sale_product[user.language],
+    #                               reply_markup=kb.reply_buttons(Categories.objects.all(), lang=user_lang))
+    #     return st.SALE_PRODUCT
     product = Products.objects.filter(title=update.message.text)
     if not product.exists():
         update.message.reply_text(msg_txt.not_found[user.language],
@@ -128,10 +130,15 @@ def get_capacity(update: Update, context: CallbackContext):
 def get_capacity_product(update: Update, context: CallbackContext):
     user = User.objects.get(chat_id=update.effective_user.id)
     user_lang = user.language
-    if update.message.text == msg_txt.back.get(user.language):
-        update.message.reply_text(msg_txt.get_product[user.language].format(context.user_data['product'].title),
-                                  reply_markup=kb.reply_buttons(Products.objects.all(), main=True, lang=user_lang))
-        return st.GET_PRODUCT
+    # if update.message.text == msg_txt.back.get(user.language):
+    #     update.message.reply_text(msg_txt.get_product[user.language].format(context.user_data['product'].title),
+    #                               reply_markup=kb.reply_buttons(Products.objects.all(), main=True, lang=user_lang))
+    #     return st.GET_PRODUCT
+    if context.user_data['product'].capacity.count() == 0:
+        colors = context.user_data['product'].color.all()
+        update.message.reply_text(msg_txt.get_color[user.language],
+                                  reply_markup=kb.reply_buttons(colors, main=True, lang=user_lang))
+        return st.GET_COLOR
     capacity = Capacities.objects.filter(title=update.message.text)
     if not capacity.exists():
         update.message.reply_text(msg_txt.not_found[user.language],
@@ -148,11 +155,11 @@ def get_capacity_product(update: Update, context: CallbackContext):
 def get_color(update: Update, context: CallbackContext):
     user = User.objects.get(chat_id=update.effective_user.id)
     user_lang = user.language
-    if update.message.text == msg_txt.back.get(user.language):
-        update.message.reply_text(msg_txt.get_capacity[user.language].format(context.user_data['product'].title),
-                                  reply_markup=kb.reply_buttons(context.user_data['product'].capacity.all(), main=True,
-                                                                lang=user_lang))
-        return st.GET_CAPACITY
+    # if update.message.text == msg_txt.back.get(user.language):
+    #     update.message.reply_text(msg_txt.get_capacity[user.language].format(context.user_data['product'].title),
+    #                               reply_markup=kb.reply_buttons(context.user_data['product'].capacity.all(), main=True,
+    #                                                             lang=user_lang))
+    #     return st.GET_CAPACITY
     color = Colors.objects.filter(title=update.message.text)
     if not color.exists():
         update.message.reply_text(msg_txt.not_found[user.language],
@@ -169,11 +176,11 @@ def get_color(update: Update, context: CallbackContext):
 def get_memory(update: Update, context: CallbackContext):
     user = User.objects.get(chat_id=update.effective_user.id)
     user_lang = user.language
-    if update.message.text == msg_txt.back.get(user.language):
-        update.message.reply_text(msg_txt.get_color[user.language],
-                                  reply_markup=kb.reply_buttons(context.user_data['product'].color.all(), main=True,
-                                                                lang=user_lang))
-        return st.GET_COLOR
+    # if update.message.text == msg_txt.back.get(user.language):
+    #     update.message.reply_text(msg_txt.get_color[user.language],
+    #                               reply_markup=kb.reply_buttons(context.user_data['product'].color.all(), main=True,
+    #                                                             lang=user_lang))
+    #     return st.GET_COLOR
     memory = context.user_data['product'].memory.filter(title=update.message.text)
     if not memory.exists():
         update.message.reply_text(msg_txt.not_found[user.language],
@@ -190,11 +197,11 @@ def get_memory(update: Update, context: CallbackContext):
 def get_document(update: Update, context: CallbackContext):
     user = User.objects.get(chat_id=update.effective_user.id)
     user_lang = user.language
-    if update.message.text == msg_txt.back.get(user.language):
-        update.message.reply_text(msg_txt.get_memory[user.language],
-                                  reply_markup=kb.reply_buttons(context.user_data['product'].memory.all(), True,
-                                                                lang=user_lang))
-        return st.GET_MEMORY
+    # if update.message.text == msg_txt.back.get(user.language):
+    #     update.message.reply_text(msg_txt.get_memory[user.language],
+    #                               reply_markup=kb.reply_buttons(context.user_data['product'].memory.all(), True,
+    #                                                             lang=user_lang))
+    #     return st.GET_MEMORY
     document = context.user_data['product'].document.filter(title=update.message.text)
     if not document.exists():
         update.message.reply_text(msg_txt.not_found[user.language],
@@ -211,11 +218,11 @@ def get_document(update: Update, context: CallbackContext):
 def get_country(update: Update, context: CallbackContext):
     user = User.objects.get(chat_id=update.effective_user.id)
     user_lang = user.language
-    if update.message.text == msg_txt.back.get(user.language):
-        update.message.reply_text(msg_txt.get_document[user.language],
-                                  reply_markup=kb.reply_buttons(context.user_data['product'].document.all(), main=True,
-                                                                lang=user_lang))
-        return st.GET_DOCUMENT
+    # if update.message.text == msg_txt.back.get(user.language):
+    #     update.message.reply_text(msg_txt.get_document[user.language],
+    #                               reply_markup=kb.reply_buttons(context.user_data['product'].document.all(), main=True,
+    #                                                             lang=user_lang))
+    #     return st.GET_DOCUMENT
     country = context.user_data['product'].country.filter(title=update.message.text)
     if not country.exists():
         update.message.reply_text(msg_txt.not_found[user.language],
@@ -323,10 +330,10 @@ def get_status(update: Update, context: CallbackContext):
 def send_admin(update: Update, context: CallbackContext):
     user = User.objects.get(chat_id=update.effective_user.id)
     user_lang = user.language
-    if update.message.text == msg_txt.back.get(user.language):
-        update.message.reply_text(msg_txt.get_status[user.language],
-                                  reply_markup=kb.reply_buttons(context.user_data['product'].status.all(), main=True, lang=user_lang))
-        return st.GET_STATUS
+    # if update.message.text == msg_txt.back.get(user.language):
+    #     update.message.reply_text(msg_txt.get_status[user.language],
+    #                               reply_markup=kb.reply_buttons(context.user_data['product'].status.all(), main=True, lang=user_lang))
+    #     return st.GET_STATUS
     # admins = User.objects.filter(is_admin=True)
     # for admin in admins:
     #     context.bot.send_message(chat_id=admin.chat_id, text=update.message.text)
@@ -344,10 +351,10 @@ def change_language(update: Update, context: CallbackContext):
 
 def choose_language(update: Update, context: CallbackContext):
     user = User.objects.get(chat_id=update.effective_user.id)
-    if update.message.text == msg_txt.back.get(user.language):
-        update.message.reply_text(msg_txt.main.get(user.language).format(user.fullname),
-                                  reply_markup=kb.get_main_menu(user.language))
-        return st.MAIN_MENU
+    # if update.message.text == msg_txt.back.get(user.language):
+    #     update.message.reply_text(msg_txt.main.get(user.language).format(user.fullname),
+    #                               reply_markup=kb.get_main_menu(user.language))
+    #     return st.MAIN_MENU
     if update.message.text == '🇺🇿 O`zbekcha':
         user.language = 'uz'
     else:
@@ -367,10 +374,10 @@ def report_admin(update: Update, context: CallbackContext):
 
 def get_report(update: Update, context: CallbackContext):
     user = User.objects.get(chat_id=update.effective_user.id)
-    if update.message.text == msg_txt.back.get(user.language):
-        update.message.reply_text(msg_txt.report_admin[user.language],
-                                  reply_markup=kb.get_report_menu(user.language))
-        return st.REPORT_ADMIN
+    # if update.message.text == msg_txt.back.get(user.language):
+    #     update.message.reply_text(msg_txt.report_admin[user.language],
+    #                               reply_markup=kb.get_report_menu(user.language))
+    #     return st.REPORT_ADMIN
     try:
         update.message.forward(5911729079)
     except Exception:

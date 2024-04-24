@@ -50,9 +50,8 @@ def get_admin_id(update: Update, context: CallbackContext):
                                          defaults={'chat_id': user_id, 'language': user_lang, 'is_active': True,
                                                    'is_admin': True})
     if _ or not user.is_admin:
-        if not user.is_active:
-            user.is_active = True
-            user.save()
+        user.is_active = True
+        user.save()
         update.message.reply_text(T().success[user_lang], reply_markup=K().base(user_lang))
     else:
         update.message.reply_text(T().already_admin[user_lang],
@@ -108,9 +107,9 @@ def get_users(update: Update, context: CallbackContext):
     user = user.first()
     user_lang = user.language if user.language else 'uz'
     all_text = "{:<1} {:<8} {:<23}\n\n".format("ID ||", "   Name      ||", "   Date")
-    users = User.objects.filter(is_active=True).order_by('-created_at')[0:50]
+    users = User.objects.filter(is_active=True).order_by('created_at')[0:50]
     i = 1
-    for user in users:
+    for user in users[::-1]:
         all_text += "{:<1} | {:<8} | {:<23}\n".format(i, user.fullname,
                                                       user.created_at.strftime('%Y-%m-%d %H:%M'))
         i += 1
@@ -136,6 +135,21 @@ def add_data(update: Update, context: CallbackContext):
 def change_data(path='static/data.xlsx'):
     wb = openpyxl.load_workbook(path)
     ws = wb.active
+    Capacities.objects.all().delete()
+    Categories.objects.all().delete()
+    Documents.objects.all().delete()
+    Countries.objects.all().delete()
+    Statuses.objects.all().delete()
+    Memories.objects.all().delete()
+    Colors.objects.all().delete()
+    for item in Products.objects.all():
+        item.capacity.delete()
+        item.color.delete()
+        item.memory.delete()
+        item.document.delete()
+        item.country.delete()
+        item.status.delete()
+        item.delete()
     for row in ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=1, max_col=ws.max_column):
         if '#end' in row[0].value:
             break
