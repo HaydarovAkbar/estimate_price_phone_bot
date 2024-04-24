@@ -23,12 +23,14 @@ class KeyboardBase:
         return str(self._keyboard)
 
     @staticmethod
-    def channels(channels):
+    def channels(channels, lang='uz'):
         keyboard = []
+        confirm = msg_txt.confirm.get(lang)
         for channel in channels:
             keyboard.append(
                 [InlineKeyboardButton(channel.title, url=channel.url)]
             )
+        keyboard.append([InlineKeyboardButton(confirm, callback_data='confirm')])
         return InlineKeyboardMarkup(keyboard)
 
     @staticmethod

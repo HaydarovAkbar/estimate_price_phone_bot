@@ -4,6 +4,12 @@ class KeyboardsTexts:
         'ru': ["📲 Оценка телефона 📲💰", "♻️ Изменить язык", "👮‍♀️ Обращение к админу"],
         'en': ["📲 Phone evaluation 📲💰", "♻️ Change language", "👮‍♀️ Appeal to the admin"],
     }
+
+    confirm = {
+        'uz': "✅ Tasdiqlash",
+        'ru': "✅ Подтвердить",
+        'en': "✅ Confirm",
+    }
     back = {
         'uz': '🔙 Orqaga',
         'ru': '🔙 Назад',
@@ -152,10 +158,10 @@ class Message:
 E'lon narxi 15.000 so'm (narx tushurilmaydi!)
 To'lo'v uchun karta raqam 👇
 
-HUMO: - 9860 0609 4138 4087 -
+HUMO: - <code>9860060941384087</code> -
 Sodiqjonov X (BRB bank)
 
-UzCard: - 5614 6812 0920 9703 -
+UzCard: - <code>5614681209209703</code> -
 Sodiqjonov X (Ipoteka Bank)
 
 To'lo'v qilib chekini adminga yuboring 👉 @PhoneSell_Admin</b>""",
@@ -164,10 +170,10 @@ To'lo'v qilib chekini adminga yuboring 👉 @PhoneSell_Admin</b>""",
 Стоимость объявления 15.000 сум (цена не указывается!)
 Для оплаты номер карты 👇
 
-HUMO: - 9860 0609 4138 4087 -
+HUMO: - <code>9860060941384087</code> -
 Sodiqjonov X (BRB bank)
 
-UzCard: - 5614 6812 0920 9703 -
+UzCard: - <code>5614681209209703</code> -
 Sodiqjonov X (Ipoteka Bank)
 
 Оплатите и отправьте чек админу 👉 @PhoneSell_Admin</b>""",
@@ -176,10 +182,10 @@ Sodiqjonov X (Ipoteka Bank)
 The cost of the ad is 15.000 sum (price is not indicated!)
 For payment card number 👇
 
-HUMO: - 9860 0609 4138 4087 -
+HUMO: - <code>9860060941384087</code> -
 Sodiqjonov X (BRB bank)
 
-UzCard: - 5614 6812 0920 9703 -
+UzCard: - <code>5614681209209703</code> -
 Sodiqjonov X (Ipoteka Bank)
 
 Pay and send the check to the admin 👉 @PhoneSell_Admin</b>""",

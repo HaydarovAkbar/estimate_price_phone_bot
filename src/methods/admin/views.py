@@ -50,7 +50,7 @@ def get_admin_id(update: Update, context: CallbackContext):
                                          defaults={'chat_id': user_id, 'language': user_lang, 'is_active': True,
                                                    'is_admin': True})
     if _ or not user.is_admin:
-        user.is_active = True
+        user.is_admin = True
         user.save()
         update.message.reply_text(T().success[user_lang], reply_markup=K().base(user_lang))
     else:

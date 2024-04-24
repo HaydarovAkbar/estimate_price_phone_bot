@@ -27,7 +27,7 @@ def start(update: Update, context: CallbackContext):
                 for admin in User.objects.filter(is_admin=True):
                     context.bot.send_message(chat_id=admin.chat_id,
                                              text=msg_txt.not_admin.get(admin.language).format(channel.title))
-                break
+                return st.FOLLOWERS
             if is_followers.status in ['member', 'administrator']:
                 i += 1
             else:
@@ -38,7 +38,7 @@ def start(update: Update, context: CallbackContext):
             return st.MAIN_MENU
         else:
             update.message.reply_text(msg_txt.forced_labor.get(user.language),
-                                      reply_markup=kb.channels(locout_ch))
+                                      reply_markup=kb.channels(locout_ch, user.language))
             return st.FOLLOWERS
     else:
         update.message.reply_text(msg_txt.main.get(user.language).format(user.fullname),
@@ -65,7 +65,7 @@ def followers(update: Update, context: CallbackContext):
             return st.MAIN_MENU
         else:
             context.bot.send_message(chat_id=user.chat_id, text=msg_txt.forced_labor.get(user.language),
-                                     reply_markup=kb.channels(locout_ch))
+                                     reply_markup=kb.channels(locout_ch, user.language))
             return st.FOLLOWERS
     else:
         query.delete_message()
