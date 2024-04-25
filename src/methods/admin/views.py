@@ -7,7 +7,7 @@ from .keyboards import AdminKeyboards as K
 from .message import MessageText as T
 
 from states import States as S
-from db.models import User, Channels, Categories, Capacities, Products, Documents, Countries, Statuses, Memories, Colors
+from db.models import User, Channels, Categories, Capacities, Products, Documents, Countries, Statuses, Memories, Colors, ProductCriteria, Prices
 
 
 def admin(update: Update, context: CallbackContext):
@@ -160,34 +160,44 @@ def change_data(path='static/data.xlsx'):
         status, _ = Statuses.objects.get_or_create(title=row[7].value.strip())
         memory, _ = Memories.objects.get_or_create(title=row[4].value.strip())
         color, _ = Colors.objects.get_or_create(title=row[3].value.strip())
-        producty, _ = Products.objects.get_or_create(title=row[1].value.strip())
-        producty.category = category
+        price, _ = Prices.objects.get_or_create(title=row[8].value.strip())
+        producty, _ = Products.objects.get_or_create(title=row[1].value.strip(), category=category)
+        data = dict()
         if capacity.title != 'Y':
-            capacities = list(producty.capacity.all())
-            capacities.append(capacity)
-            producty.capacity.set(capacities)
+            # capacities = list(producty.capacity.all())
+            # capacities.append(capacity)
+            # producty.capacity.set(capacities)
+            data['capacity'] = capacity
         if color.title != 'Y':
-            colors = list(producty.color.all())
-            colors.append(color)
-            producty.color.set(colors)
+            # colors = list(producty.color.all())
+            # colors.append(color)
+            # producty.color.set(colors)
+            data['color'] = color
         if memory.title != 'Y':
-            memories = list(producty.memory.all())
-            memories.append(memory)
-            producty.memory.set(memories)
+            # memories = list(producty.memory.all())
+            # memories.append(memory)
+            # producty.memory.set(memories)
+            data['memory'] = memory
         if document.title != 'Y':
-            documents = list(producty.document.all())
-            documents.append(document)
-            producty.document.set(documents)
+            # documents = list(producty.document.all())
+            # documents.append(document)
+            # producty.document.set(documents)
+            data['document'] = document
         if country.title != 'Y':
-            countries = list(producty.country.all())
-            countries.append(country)
-            producty.country.set(countries)
+            # countries = list(producty.country.all())
+            # countries.append(country)
+            # producty.country.set(countries)
+            data['country'] = country
         if status.title != 'Y':
-            statuses = list(producty.status.all())
-            statuses.append(status)
-            producty.status.set(statuses)
-        producty.price = row[8].value
-        producty.save()
+            # statuses = list(producty.status.all())
+            # statuses.append(status)
+            # producty.status.set(statuses)
+            data['status'] = status
+        # producty.price = row[8].value
+        # producty.save()
+        if price.title != 'Y':
+            data['price'] = price
+        product_criteria = ProductCriteria.objects.create(product=producty, **data)
 
     wb.save(path)
 

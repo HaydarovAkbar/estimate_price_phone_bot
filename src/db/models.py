@@ -212,22 +212,41 @@ class Statuses(models.Model):
     abstract = True
 
 
+class Prices(models.Model):
+    title = models.CharField(max_length=100)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True)
+
+    objects = models.Manager()
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        self.updated_at = now()
+        super(Prices, self).save(*args, **kwargs)
+        return self
+
+    abstract = True
+
+
 class Products(models.Model):
     title = models.CharField(max_length=255, verbose_name=_("Nomi"))
     category = models.ForeignKey(Categories, on_delete=models.CASCADE, null=True, blank=True)
-    capacity = models.ManyToManyField(Capacities, related_name='products',
-                                      verbose_name=_("Yomkosti"))
-    color = models.ManyToManyField(Colors, related_name='products',
-                                   verbose_name=_("Rangi"))
-    memory = models.ManyToManyField(Memories, related_name='products',
-                                    verbose_name=_("Xotira"))
-    document = models.ManyToManyField(Documents, related_name='products',
-                                      verbose_name=_("Hujjat"))
-    country = models.ManyToManyField(Countries, related_name='products',
-                                     verbose_name=_("Mamlakat"))
-    status = models.ManyToManyField(Statuses, related_name='products',
-                                    verbose_name=_("Holati"))
-    price = models.CharField(max_length=255, verbose_name=_("Narxi"), null=True, blank=True)
+    # capacity = models.ManyToManyField(Capacities, related_name='products',
+    #                                   verbose_name=_("Yomkosti"))
+    # color = models.ManyToManyField(Colors, related_name='products',
+    #                                verbose_name=_("Rangi"))
+    # memory = models.ManyToManyField(Memories, related_name='products',
+    #                                 verbose_name=_("Xotira"))
+    # document = models.ManyToManyField(Documents, related_name='products',
+    #                                   verbose_name=_("Hujjat"))
+    # country = models.ManyToManyField(Countries, related_name='products',
+    #                                  verbose_name=_("Mamlakat"))
+    # status = models.ManyToManyField(Statuses, related_name='products',
+    #                                 verbose_name=_("Holati"))
+    # price = models.CharField(max_length=255, verbose_name=_("Narxi"), null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     image = models.CharField(max_length=255, null=True, blank=True)
 
@@ -245,5 +264,25 @@ class Products(models.Model):
         self.updated_at = now()
         super(Products, self).save(*args, **kwargs)
         return self
+
+    abstract = True
+
+
+class ProductCriteria(models.Model):
+    product = models.ForeignKey(Products, on_delete=models.CASCADE, related_name='criteria')
+    capacity = models.ManyToManyField(Capacities, related_name='products', verbose_name=_("Yomkosti"))
+    color = models.ManyToManyField(Colors, related_name='products', verbose_name=_("Rangi"))
+    memory = models.ManyToManyField(Memories, related_name='products', verbose_name=_("Xotira"))
+    document = models.ManyToManyField(Documents, related_name='products', verbose_name=_("Hujjat"))
+    country = models.ManyToManyField(Countries, related_name='products', verbose_name=_("Mamlakat"))
+    status = models.ManyToManyField(Statuses, related_name='products', verbose_name=_("Holati"))
+    price = models.ManyToManyField(Prices, related_name='products', verbose_name=_("Narxi"))
+
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    objects = models.Manager()
+
+    def __str__(self):
+        return self.product.title
 
     abstract = True
