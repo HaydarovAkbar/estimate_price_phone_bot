@@ -153,14 +153,14 @@ def change_data(path='static/data.xlsx'):
     for row in ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=1, max_col=ws.max_column):
         if '#end' in row[0].value:
             break
-        category, _ = Categories.objects.get_or_create(title=row[0].value)
-        capacity, _ = Capacities.objects.get_or_create(title=row[2].value)
-        document, _ = Documents.objects.get_or_create(title=row[5].value)
-        country, _ = Countries.objects.get_or_create(title=row[6].value)
-        status, _ = Statuses.objects.get_or_create(title=row[7].value)
-        memory, _ = Memories.objects.get_or_create(title=row[4].value)
-        color, _ = Colors.objects.get_or_create(title=row[3].value)
-        producty, _ = Products.objects.get_or_create(title=row[1].value)
+        category, _ = Categories.objects.get_or_create(title=row[0].value.strip())
+        capacity, _ = Capacities.objects.get_or_create(title=row[2].value.strip())
+        document, _ = Documents.objects.get_or_create(title=row[5].value.strip())
+        country, _ = Countries.objects.get_or_create(title=row[6].value.strip())
+        status, _ = Statuses.objects.get_or_create(title=row[7].value.strip())
+        memory, _ = Memories.objects.get_or_create(title=row[4].value.strip())
+        color, _ = Colors.objects.get_or_create(title=row[3].value.strip())
+        producty, _ = Products.objects.get_or_create(title=row[1].value.strip())
         producty.category = category
         if capacity.title != 'Y':
             capacities = list(producty.capacity.all())

@@ -28,7 +28,7 @@ def start(update: Update, context: CallbackContext):
                     context.bot.send_message(chat_id=admin.chat_id,
                                              text=msg_txt.not_admin.get(admin.language).format(channel.title))
                 return st.FOLLOWERS
-            if is_followers.status in ['member', 'administrator']:
+            if is_followers.status in ['member', 'administrator', 'owner', 'creator']:
                 i += 1
             else:
                 locout_ch.append(channel)
@@ -90,7 +90,6 @@ def get_category(update: Update, context: CallbackContext):
     #     update.message.reply_text(msg_txt.main.get(user.language).format(user.fullname),
     #                               reply_markup=kb.get_main_menu(user.language))
     #     return st.MAIN_MENU
-    print(update.message.text)
     category = Categories.objects.filter(title=update.message.text)
     if not category.exists():
         update.message.reply_text(msg_txt.not_found[user.language],

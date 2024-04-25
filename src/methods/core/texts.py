@@ -135,8 +135,8 @@ class Message:
     }
 
     report_admin = {
-        'uz': "<b>Adminga murojaatingizni to'liqroq yozib qoldiring !!!\n\nBiz albatta ko'rib chiqamiz 👮‍♀️</b>",
-        'ru': "<b>Оставьте свое обращение админу !!!\n\nМы обязательно рассмотрим 👮‍♀️</b>",
+        'uz': "<b>👮‍ @PhoneSell_Admin Adminga murojaatingizni to'liqroq yozib qoldiring !!!\n\nBiz albatta ko'rib chiqamiz 👮‍♀️</b>",
+        'ru': "<b>Оставьте свое обращение админу 👮‍ @PhoneSell_Admin !!!\n\nМы обязательно рассмотрим 👮‍♀️</b>",
         'en': "<b>Leave your message to the admin !!!\n\nWe will definitely consider it 👮‍♀️</b>",
     }
 
