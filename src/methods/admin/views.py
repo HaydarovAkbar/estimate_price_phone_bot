@@ -7,7 +7,8 @@ from .keyboards import AdminKeyboards as K
 from .message import MessageText as T
 
 from states import States as S
-from db.models import User, Channels, Categories, Capacities, Products, Documents, Countries, Statuses, Memories, Colors, ProductCriteria, Prices
+from db.models import User, Channels, Categories, Capacities, Products, Documents, Countries, Statuses, Memories, \
+    Colors, ProductCriteria, Prices
 
 
 def admin(update: Update, context: CallbackContext):
@@ -142,14 +143,7 @@ def change_data(path='static/data.xlsx'):
     Statuses.objects.all().delete()
     Memories.objects.all().delete()
     Colors.objects.all().delete()
-    for item in Products.objects.all():
-        item.capacity.delete()
-        item.color.delete()
-        item.memory.delete()
-        item.document.delete()
-        item.country.delete()
-        item.status.delete()
-        item.delete()
+    Products.objects.all().delete()
     for row in ws.iter_rows(min_row=2, max_row=ws.max_row, min_col=1, max_col=ws.max_column):
         if '#end' in row[0].value:
             break
@@ -160,45 +154,24 @@ def change_data(path='static/data.xlsx'):
         status, _ = Statuses.objects.get_or_create(title=row[7].value.strip())
         memory, _ = Memories.objects.get_or_create(title=row[4].value.strip())
         color, _ = Colors.objects.get_or_create(title=row[3].value.strip())
-        price, _ = Prices.objects.get_or_create(title=row[8].value.strip())
+        # price, _ = Prices.objects.get_or_create(title=row[8].value.strip())
         producty, _ = Products.objects.get_or_create(title=row[1].value.strip(), category=category)
         data = dict()
         if capacity.title != 'Y':
-            # capacities = list(producty.capacity.all())
-            # capacities.append(capacity)
-            # producty.capacity.set(capacities)
             data['capacity'] = capacity
         if color.title != 'Y':
-            # colors = list(producty.color.all())
-            # colors.append(color)
-            # producty.color.set(colors)
             data['color'] = color
         if memory.title != 'Y':
-            # memories = list(producty.memory.all())
-            # memories.append(memory)
-            # producty.memory.set(memories)
             data['memory'] = memory
         if document.title != 'Y':
-            # documents = list(producty.document.all())
-            # documents.append(document)
-            # producty.document.set(documents)
             data['document'] = document
         if country.title != 'Y':
-            # countries = list(producty.country.all())
-            # countries.append(country)
-            # producty.country.set(countries)
             data['country'] = country
         if status.title != 'Y':
-            # statuses = list(producty.status.all())
-            # statuses.append(status)
-            # producty.status.set(statuses)
             data['status'] = status
-        # producty.price = row[8].value
-        # producty.save()
-        if price.title != 'Y':
-            data['price'] = price
-        product_criteria = ProductCriteria.objects.create(product=producty, **data)
-
+        if row[8].value.strip() != 'Y':
+            data['price'] = row[8].value.strip()
+        ProductCriteria.objects.create(product=producty, **data)
     wb.save(path)
 
 
@@ -212,6 +185,7 @@ def get_data(update: Update, context: CallbackContext):
     file_id = update.message.document.file_id
     file_name = update.message.document.file_name
     file = context.bot.get_file(file_id)
+    update.message.reply_text(T().wait[user_lang])
     file.download('static/' + file_name)
     change_data('static/' + file_name)
     update.message.reply_text(T().success[user_lang], reply_markup=K().base(user_lang))

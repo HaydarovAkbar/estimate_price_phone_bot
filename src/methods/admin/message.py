@@ -21,6 +21,11 @@ class MessageText:
         'ru': "успешно добавлен в админы ✅",
         'en': "successfully added to admins ✅",
     }
+    wait = {
+        'uz': "Kuting...",
+        'ru': "Подождите...",
+        'en': "Wait...",
+    }
     already_admin = {
         'uz': "Bu foydalanuvchi allaqachon admin",
         'ru': "Этот пользователь уже админ",
