@@ -308,12 +308,15 @@ def send_reklama(update: Update, context: CallbackContext):
     for other_user in User.objects.all():
         if counter % 5000 == 0 and counter != 0:
             for admin in User.objects.filter(is_admin=True):
-                context.bot.send_message(chat_id=admin.chat_id,
-                                         text=f"Reklama!\n{count_user} - foydalanuvchidan\n{counter} - foydalanuvchiga foydalanuvchiga yuborildi")
+                try:
+                    context.bot.send_message(chat_id=admin.chat_id,
+                                             text=f"Reklama!\n{count_user} - foydalanuvchidan\n{counter} - foydalanuvchiga foydalanuvchiga yuborildi")
+                except Exception:
+                    pass
         try:
             update.message.copy(chat_id=other_user.chat_id)
             counter += 1
-            time.sleep(0.3)
+            time.sleep(20)
         except Exception:
             pass
     update.message.reply_text(f"✅ Reklama {counter} ta foydalanuvchiga yuborildi ✅",

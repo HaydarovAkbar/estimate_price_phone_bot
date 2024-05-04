@@ -35,7 +35,7 @@ from states import States as st
 from telegram.ext import CallbackContext, CommandHandler, ConversationHandler, MessageHandler, Filters, \
     CallbackQueryHandler, Updater
 
-updater = Updater(token=TOKEN, use_context=True)
+updater = Updater(token=TOKEN, use_context=True, workers=5000)
 
 dispatcher = updater.dispatcher
 
