@@ -41,12 +41,14 @@ def check_user(update: Update, context: CallbackContext):
 
 
 def start(update: Update, context: CallbackContext):
+    # print("Kutish buvoti")
     user = User.objects.get_or_create(chat_id=update.effective_user.id, defaults={
         'fullname': update.effective_user.full_name,
         'username': update.effective_user.username,
         'language': 'uz',
         'is_active': True,
     })[0]
+    # print("User:", user)
     channels = Channels.objects.filter(is_active=True)
     if channels.exists():
         i = int()

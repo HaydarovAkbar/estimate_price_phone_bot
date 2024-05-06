@@ -8,6 +8,8 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings')
 import django
 
 django.setup()
+
+
 from decouple import config
 
 import logging
@@ -32,12 +34,13 @@ from methods.core.texts import KeyboardsTexts as msg_txt
 
 from states import States as st
 
-from telegram.ext import CallbackContext, CommandHandler, ConversationHandler, MessageHandler, Filters, \
+from telegram.ext import CommandHandler, ConversationHandler, MessageHandler, Filters, \
     CallbackQueryHandler, Updater
 
-updater = Updater(token=TOKEN, use_context=True, workers=5000)
+updater = Updater(token=TOKEN, use_context=True, workers=4)
 
 dispatcher = updater.dispatcher
+dispatcher.workers = 4
 
 all_handlers = ConversationHandler(
     entry_points=[
@@ -286,5 +289,6 @@ all_handlers = ConversationHandler(
 
 dispatcher.add_handler(all_handlers)
 updater.start_polling()
-updater.idle()
+
 print('Bot is running...')
+updater.idle()
